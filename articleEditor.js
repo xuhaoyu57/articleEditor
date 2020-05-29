@@ -13,9 +13,22 @@ AnalysisReplaceStr.prototype.highlight = {
         'console',
         'log',
         'window',
+        'catch',
+        'try',
+        'continue',
+        'function',
+        'class',
+        'in',
+        'innerHTML',
+        'innerText',
+        'type of',
+        'void',
+        'throw'
     ],
     '#829ECD': [
-        'git'
+        'git',
+        'false',
+        'true'
     ]
 };
 // 截取字符串
