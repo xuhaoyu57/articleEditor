@@ -13,22 +13,9 @@ AnalysisReplaceStr.prototype.highlight = {
         'console',
         'log',
         'window',
-        'catch',
-        'try',
-        'continue',
-        'function',
-        'class',
-        'in',
-        'innerHTML',
-        'innerText',
-        'type of',
-        'void',
-        'throw'
     ],
     '#829ECD': [
-        'git',
-        'false',
-        'true'
+        'git'
     ]
 };
 // 截取字符串
@@ -48,7 +35,6 @@ AnalysisReplaceStr.prototype.getSliceStr = function (allStr, startStr, endStr) {
     let sliceStr = allStr.slice(start + startStr.length, end)
     sliceStr = sliceStr.replace(/^\s*/, "")//去空格
     sliceStr = sliceStr.replace(/\s*$/, "");//去掉字符串最后的空格
-    console.log(sliceStr)
     return {
         sliceStr,
         hasReplace: true,
@@ -56,18 +42,49 @@ AnalysisReplaceStr.prototype.getSliceStr = function (allStr, startStr, endStr) {
         rightStr: allStr.slice(end + endStr.length, allStr.length)
     }
 }
+
+
 //对代码块解析
-AnalysisReplaceStr.prototype.code = function (allStr) {
-    let obj = this.getSliceStr(allStr, '#code', '#end')
+AnalysisReplaceStr.prototype.tab = function () {
+    this.AnalysisImg()
+    this.AnalysisFont()
+}
+AnalysisReplaceStr.prototype.AnalysisImg = function () {
+    let obj = this.getSliceStr(this.text, '#img', '#tabend')
     if (!obj.hasReplace) {
-        return allStr
+        return
+    }
+    let newStr = `<img src="${obj.sliceStr}"/>`
+    this.text = obj.leftStr + newStr + obj.rightStr
+    this.AnalysisImg()
+}
+AnalysisReplaceStr.prototype.AnalysisFont = function () {
+    let font = (i) => {
+        let obj = this.getSliceStr(this.text, '#font' + i, '#tabend')
+        if (!obj.hasReplace) {
+            return
+        }
+        let newStr = `<font size="${i}">${obj.sliceStr}</font>`
+        this.text = obj.leftStr + newStr + obj.rightStr
+        font(i)
+    }
+    for (let i = 1; i < 8; i++) {
+        font(i)
+    }
+}
+
+
+//对代码块解析
+AnalysisReplaceStr.prototype.code = function () {
+    let obj = this.getSliceStr(this.text, '#code', '#end')
+    if (!obj.hasReplace) {
+        return
     }
     let sliceStr = this.highlightCode(obj.sliceStr)
     let newStr = `<div class="code">${sliceStr}</div>`
-    allStr = obj.leftStr + newStr + obj.rightStr
-    return this.code(allStr)
+    this.text = obj.leftStr + newStr + obj.rightStr
+    this.code()
 }
-
 AnalysisReplaceStr.prototype.highlightCode = function (sliceStr) {
     for (const highlightkey in this.highlight) {
         this.highlight[highlightkey].forEach((item, index) => {
@@ -77,20 +94,30 @@ AnalysisReplaceStr.prototype.highlightCode = function (sliceStr) {
     }
     return sliceStr
 }
+
+
 // text 需要被替换的所有文本
 AnalysisReplaceStr.prototype.startAnalysis = function (text) {
+    this.text = text
     this.analysisArr.forEach((item, index) => {
-        this.text = this[item](text)
+        this[item](this.text)
     })
     return this
 }
 
 /**
- * analysisArr 需要处理的指令
+ * analysisArr 需要处理的指令（数组）
  * code：对代码块进行解析 语法：#code ... #end
- * img：转换为图片标签 语法：#img ... #tabend
+ * tab：标识符解析为html标签；img：转换为图片标签 语法：#img 图片地址 #tabend font：转换为文字标签 语法：#font+n 内容 #tabend
  * @param arr
  */
 function AnalysisReplaceStr(analysisArr) {
+    this.tabArr = [
+        'img',
+        'font1',
+        'font2',
+        'font3',
+    ]
     this.analysisArr = analysisArr
 }
+
