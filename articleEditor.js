@@ -18,6 +18,23 @@ AnalysisReplaceStr.prototype.highlight = {
         'git'
     ]
 };
+AnalysisReplaceStr.prototype.myIndexOf = function (allStr, findStrArr) {
+    let indexArr = []
+    findStrArr.forEach((item, index) => {
+        indexArr[index] = {name: item, index: []}
+    })
+    for (let i = 0; i < allStr.length; i++) {
+        indexArr.forEach((item, index) => {
+            if (allStr[i] == item.name[0]) {
+                if (allStr.slice(i, i + item.name.length) == item.name) {
+                    item.index.push(i)
+                }
+            }
+        })
+    }
+    return indexArr
+}
+
 // 截取字符串
 AnalysisReplaceStr.prototype.getSliceStr = function (allStr, startStr, endStr) {
     // let patt = RegExp('^\\s+'+startStr+'[ ]+','g')
@@ -30,6 +47,21 @@ AnalysisReplaceStr.prototype.getSliceStr = function (allStr, startStr, endStr) {
     if (start == -1 || end == -1) {
         return {
             hasReplace: false
+        }
+    }else if(start >= end){
+        let arr = this.myIndexOf(allStr,[endStr])
+        let hasEnd = false
+        for (let i = 0; i < arr[0].index.length; i++) {
+            if(arr[0].index[i]>start){
+                hasEnd = true
+                end = arr[0].index[i]
+                break
+            }
+        }
+        if(!hasEnd){
+            return {
+                hasReplace: false
+            }
         }
     }
     let sliceStr = allStr.slice(start + startStr.length, end)
@@ -50,7 +82,7 @@ AnalysisReplaceStr.prototype.tab = function () {
     this.AnalysisFont()
 }
 AnalysisReplaceStr.prototype.AnalysisImg = function () {
-    let obj = this.getSliceStr(this.text, '#img', '#end')
+    let obj = this.getSliceStr(this.text, '#img', '#tabend')
     if (!obj.hasReplace) {
         return
     }
@@ -108,10 +140,9 @@ AnalysisReplaceStr.prototype.startAnalysis = function (text) {
 /**
  * analysisArr 需要处理的指令（数组）
  * code：对代码块进行解析 语法：#code ... #end
- * tab：标识符解析为html标签；img：转换为图片标签 语法：#img 图片地址 #end font：转换为文字标签 语法：#font+n 内容 #end
+ * tab：标识符解析为html标签；img：转换为图片标签 语法：#img 图片地址 #tab font：转换为文字标签 语法：#font+n 内容 #tab
  * @param arr
  */
 function AnalysisReplaceStr(analysisArr) {
     this.analysisArr = analysisArr
 }
-
