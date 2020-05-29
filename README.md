@@ -9,7 +9,10 @@
         color: #BFC7B8;
     }
 ```
-实例化AnalysisReplaceStr类
-let obj = new AnalysisReplaceStr(字符串文本,['code'])
-获取解析后的文本
-obj.text
+实例化AnalysisReplaceStr类 <br>
+let obj = new AnalysisReplaceStr(['code'])<br>
+解析文本<br>
+obj.startAnalysis(字符串文本) <br> 
+获取解析后的文本<br>
+obj.text<br>
+或者obj.startAnalysis(字符串文本).text
