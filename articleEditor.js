@@ -50,7 +50,7 @@ AnalysisReplaceStr.prototype.tab = function () {
     this.AnalysisFont()
 }
 AnalysisReplaceStr.prototype.AnalysisImg = function () {
-    let obj = this.getSliceStr(this.text, '#img', '#tabend')
+    let obj = this.getSliceStr(this.text, '#img', '#end')
     if (!obj.hasReplace) {
         return
     }
@@ -60,7 +60,7 @@ AnalysisReplaceStr.prototype.AnalysisImg = function () {
 }
 AnalysisReplaceStr.prototype.AnalysisFont = function () {
     let font = (i) => {
-        let obj = this.getSliceStr(this.text, '#font' + i, '#tabend')
+        let obj = this.getSliceStr(this.text, '#font' + i, '#end')
         if (!obj.hasReplace) {
             return
         }
