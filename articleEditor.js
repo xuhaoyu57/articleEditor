@@ -108,16 +108,10 @@ AnalysisReplaceStr.prototype.startAnalysis = function (text) {
 /**
  * analysisArr 需要处理的指令（数组）
  * code：对代码块进行解析 语法：#code ... #end
- * tab：标识符解析为html标签；img：转换为图片标签 语法：#img 图片地址 #tabend font：转换为文字标签 语法：#font+n 内容 #tabend
+ * tab：标识符解析为html标签；img：转换为图片标签 语法：#img 图片地址 #end font：转换为文字标签 语法：#font+n 内容 #end
  * @param arr
  */
 function AnalysisReplaceStr(analysisArr) {
-    this.tabArr = [
-        'img',
-        'font1',
-        'font2',
-        'font3',
-    ]
     this.analysisArr = analysisArr
 }
 
