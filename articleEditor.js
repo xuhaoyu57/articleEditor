@@ -82,7 +82,7 @@ AnalysisReplaceStr.prototype.tab = function () {
     this.AnalysisFont()
 }
 AnalysisReplaceStr.prototype.AnalysisImg = function () {
-    let obj = this.getSliceStr(this.text, '#img', '#tabend')
+    let obj = this.getSliceStr(this.text, '#img', '#end')
     if (!obj.hasReplace) {
         return
     }
