@@ -10,6 +10,10 @@
     }
 ```
 实例化AnalysisReplaceStr类 <br>
+ * code：对代码块进行解析 语法：#code ... #end
+ * tab：标识符解析为html标签；
+ img：转换为图片标签 语法：#img 图片地址 #end <br>
+ font：转换为文字标签 语法：#font+n 内容 #end <br>
 let obj = new AnalysisReplaceStr(['code'])<br>
 解析文本<br>
 obj.startAnalysis(字符串文本) <br> 
