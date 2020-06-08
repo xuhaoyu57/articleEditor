@@ -12,7 +12,7 @@ AnalysisReplaceStr.prototype.highlight = {
         'console',
         'log',
         'window',
-        'function'
+        'function',
         'return',
         'break',
     ],
