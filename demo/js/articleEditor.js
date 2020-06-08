@@ -1,6 +1,5 @@
 AnalysisReplaceStr.prototype.highlight = {
-    '#FFBF54': [
-        'git',
+    '#ea7f33': [
         'cd',
         'let',
         'var',
@@ -13,9 +12,18 @@ AnalysisReplaceStr.prototype.highlight = {
         'console',
         'log',
         'window',
+        'function'
+        'return',
+        'break',
     ],
     '#829ECD': [
         'git'
+    ],
+    '#FFBF54':[
+        'forEach',
+        'indexOf',
+        'slice',
+        'push',
     ]
 };
 AnalysisReplaceStr.prototype.myIndexOf = function (allStr, findStrArr) {
@@ -124,6 +132,13 @@ AnalysisReplaceStr.prototype.highlightCode = function (sliceStr) {
             sliceStr = sliceStr.replace(patt, '<span style="color:' + highlightkey + '">' + item + '</span>')
         })
     }
+    // 字符串
+    let patt2 = /'[^']*'|"[^"][^color:]*"/g
+    let arr = sliceStr.match(patt2)
+    if(!arr) arr = []
+    arr.forEach((item,index)=>{
+        sliceStr = sliceStr.replace(item, `<span style="color:#697E47">` + item + '</span>')
+    })
     return sliceStr
 }
 
